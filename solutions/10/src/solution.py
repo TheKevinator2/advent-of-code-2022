@@ -73,5 +73,14 @@ def solve_1(file_name):
     return result
 
 
+def solve_2(file_name):
+    # TODO: get register value from executing at each cycle
+    # and see if crt cycle is within register value range
+    crt_image = ""
+    return crt_image
+
+result1 = solve_1("../input.txt")
+print(result1)
+
 result1 = solve_1("../input.txt")
 print(result1)
