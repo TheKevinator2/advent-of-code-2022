@@ -56,10 +56,11 @@ class CPU:
     def reset(self):
         self.register = 1
 
+    def get_nr_of_cycles(self):
+        return sum([operation[0].value for operation in self.program])
 
-def sum_signal_strengths(file_name):
-    program = parse_input(file_name)
-    cpu = CPU(program)
+
+def sum_signal_strengths(cpu):
     signal_strengths = []
     for cycle in [20, 60, 100, 140, 180, 220]:
         register_value = cpu.execute_program(cycle)
@@ -69,18 +70,34 @@ def sum_signal_strengths(file_name):
 
 
 def solve_1(file_name):
-    result = sum_signal_strengths(file_name)
+    program = parse_input(file_name)
+    cpu = CPU(program)
+    result = sum_signal_strengths(cpu)
     return result
 
 
+def build_crt_string(cpu):
+    crt_string = ""
+    for cycle in range(1, cpu.get_nr_of_cycles() + 1):
+        register_value = cpu.execute_program(cycle)
+        if register_value - 1 <= (cycle % 40) - 1 <= register_value + 1:
+            crt_string += "#"
+        else:
+            crt_string += "."
+        if cycle in [40, 80, 120, 160, 200, 240, 270, 300]:
+            crt_string += "\n"
+    return crt_string
+
+
 def solve_2(file_name):
-    # TODO: get register value from executing at each cycle
-    # and see if crt cycle is within register value range
-    crt_image = ""
-    return crt_image
+    program = parse_input(file_name)
+    cpu = CPU(program)
+    crt_string = build_crt_string(cpu)
+    return crt_string
+
 
 result1 = solve_1("../input.txt")
 print(result1)
 
-result1 = solve_1("../input.txt")
-print(result1)
+result2 = solve_2("../input.txt")
+print(result2)
